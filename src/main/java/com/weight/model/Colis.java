@@ -35,7 +35,7 @@ public class Colis implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name = "id_colis")
+	@Column(name = "ID_COLIS")
 	private Integer idColis;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -46,35 +46,35 @@ public class Colis implements java.io.Serializable {
 	@JoinColumn(name = "ID_USER", nullable = false)
 	private Users users;
 	
-	@Column(name = "longueur", nullable = false, precision = 10)
+	@Column(name = "LONGUEUR", nullable = false, precision = 10)
 	private BigDecimal longueur;
 	
-	@Column(name = "largeur", nullable = false, precision = 10)
+	@Column(name = "LARGEUR", nullable = false, precision = 10)
 	private BigDecimal largeur;
 	
-	@Column(name = "hauteur", nullable = false, precision = 10)
+	@Column(name = "HAUTEUR", nullable = false, precision = 10)
 	private BigDecimal hauteur;
 	
-	@Column(name = "nb_kilo", precision = 10)
+	@Column(name = "NB_KILO", precision = 10)
 	private BigDecimal nbKilo;
 	
-	@Column(name = "tarif", precision = 10)
+	@Column(name = "TARIF", precision = 10)
 	private BigDecimal tarif;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "horodatage", nullable = false, length = 19)
+	@Column(name = "HORODATAGE")
 	private Date horodatage;
 	
-	@Column(name = "ville_depart", nullable = false, length = 50)
+	@Column(name = "VILLE_DEPART")
 	private String villeDepart;
 	
-	@Column(name = "ville_arrivee", nullable = false, length = 50)
+	@Column(name = "VILLE_ARRIVEE")
 	private String villeArrivee;
 	
-	@Column(name = "Description", nullable = false, length = 500)
+	@Column(name = "DESCRIPTION")
 	private String description;
 	
-	@Column(name = "photo_path")
+	@Column(name = "PHOTO_PATH")
 	private String photoPath;
 	
 	@JsonIgnore
