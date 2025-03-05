@@ -42,24 +42,24 @@ public class PriseEnCharge implements java.io.Serializable {
 	private Statuts statuts;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_USER_PRENEUR", nullable = false)
+	@JoinColumn(name = "ID_USER_PRENEUR")
 	private Users users;
 	
-	@Column(name = "ID_VOL", nullable = false, length = 50)
+	@Column(name = "ID_VOL")
 	private String idVol;
 	
-	@Column(name = "VILLE_DEPART", nullable = false, length = 50)
+	@Column(name = "VILLE_DEPART")
 	private String villeDepart;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATE_DEPART", length = 19)
+	@Column(name = "DATE_DEPART")
 	private Date dateDepart;
 	
-	@Column(name = "VILLE_ARRIVEE", nullable = false, length = 50)
+	@Column(name = "VILLE_ARRIVEE")
 	private String villeArrivee;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATE_ARRIVEE", length = 19)
+	@Column(name = "DATE_ARRIVEE")
 	private Date dateArrivee;
 
 	public PriseEnCharge() {

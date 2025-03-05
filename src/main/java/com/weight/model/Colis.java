@@ -43,22 +43,22 @@ public class Colis implements java.io.Serializable {
 	private Statuts statuts;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_USER", nullable = false)
+	@JoinColumn(name = "ID_USER")
 	private Users users;
 	
-	@Column(name = "LONGUEUR", nullable = false, precision = 10)
+	@Column(name = "LONGUEUR")
 	private BigDecimal longueur;
 	
-	@Column(name = "LARGEUR", nullable = false, precision = 10)
+	@Column(name = "LARGEUR")
 	private BigDecimal largeur;
 	
-	@Column(name = "HAUTEUR", nullable = false, precision = 10)
+	@Column(name = "HAUTEUR")
 	private BigDecimal hauteur;
 	
-	@Column(name = "NB_KILO", precision = 10)
+	@Column(name = "NB_KILO")
 	private BigDecimal nbKilo;
 	
-	@Column(name = "TARIF", precision = 10)
+	@Column(name = "TARIF")
 	private BigDecimal tarif;
 	
 	@Temporal(TemporalType.TIMESTAMP)
