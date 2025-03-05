@@ -1332,7 +1332,7 @@ public class Controller {
 	}
 	
 	@GetMapping(value = "/colis/trajet")
-	public ResponseEntity<?> getLstColisByTrajetAndStatut(String origine,String destination,@Nullable String idUser,Integer statut) {
+	public ResponseEntity<?> getLstColisByTrajetAndStatut(String origine,String destination,String idUser,Integer statut) {
 		logger.info("Récupération des colis avec un statut précis et en fonction d'un trajet");
 		String msg ="Opération réalisée avec succès";
 		HttpStatus httpRes = HttpStatus.OK;
