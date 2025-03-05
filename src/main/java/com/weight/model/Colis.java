@@ -7,12 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,26 +26,59 @@ import jakarta.persistence.TemporalType;
  */
 @Entity
 @Table(name = "colis")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Colis implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@Column(name = "id_colis")
 	private Integer idColis;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_statut")
 	private Statuts statuts;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_user", nullable = false)
 	private Users users;
+	
+	@Column(name = "longueur", nullable = false, precision = 10)
 	private BigDecimal longueur;
+	
+	@Column(name = "largeur", nullable = false, precision = 10)
 	private BigDecimal largeur;
+	
+	@Column(name = "hauteur", nullable = false, precision = 10)
 	private BigDecimal hauteur;
+	
+	@Column(name = "nb_kilo", precision = 10)
 	private BigDecimal nbKilo;
+	
+	@Column(name = "tarif", precision = 10)
 	private BigDecimal tarif;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "horodatage", nullable = false, length = 19)
 	private Date horodatage;
+	
+	@Column(name = "ville_depart", nullable = false, length = 50)
 	private String villeDepart;
+	
+	@Column(name = "ville_arrivee", nullable = false, length = 50)
 	private String villeArrivee;
+	
+	@Column(name = "Description", nullable = false, length = 500)
 	private String description;
+	
+	@Column(name = "photo_path")
 	private String photoPath;
+	
 	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "colis")
 	private Set<PriseEnCharge> priseEnCharges = new HashSet<PriseEnCharge>(0);
 
 	public Colis() {
@@ -132,9 +164,6 @@ public class Colis implements java.io.Serializable {
 	}
 	
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_colis", unique = true, nullable = false)
 	public Integer getIdColis() {
 		return this.idColis;
 	}
@@ -143,8 +172,6 @@ public class Colis implements java.io.Serializable {
 		this.idColis = idColis;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_statut")
 	public Statuts getStatuts() {
 		return this.statuts;
 	}
@@ -153,8 +180,6 @@ public class Colis implements java.io.Serializable {
 		this.statuts = statuts;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user", nullable = false)
 	public Users getUsers() {
 		return this.users;
 	}
@@ -163,7 +188,6 @@ public class Colis implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@Column(name = "longueur", nullable = false, precision = 10)
 	public BigDecimal getLongueur() {
 		return this.longueur;
 	}
@@ -172,7 +196,6 @@ public class Colis implements java.io.Serializable {
 		this.longueur = longueur;
 	}
 
-	@Column(name = "largeur", nullable = false, precision = 10)
 	public BigDecimal getLargeur() {
 		return this.largeur;
 	}
@@ -181,7 +204,6 @@ public class Colis implements java.io.Serializable {
 		this.largeur = largeur;
 	}
 
-	@Column(name = "hauteur", nullable = false, precision = 10)
 	public BigDecimal getHauteur() {
 		return this.hauteur;
 	}
@@ -190,7 +212,6 @@ public class Colis implements java.io.Serializable {
 		this.hauteur = hauteur;
 	}
 
-	@Column(name = "nb_kilo", precision = 10)
 	public BigDecimal getNbKilo() {
 		return this.nbKilo;
 	}
@@ -200,7 +221,6 @@ public class Colis implements java.io.Serializable {
 	}
 	
 
-	@Column(name = "tarif", precision = 10)
 	public BigDecimal getTarif() {
 		return this.tarif;
 	}
@@ -209,8 +229,6 @@ public class Colis implements java.io.Serializable {
 		this.tarif = tarif;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "horodatage", nullable = false, length = 19)
 	public Date getHorodatage() {
 		return this.horodatage;
 	}
@@ -219,7 +237,6 @@ public class Colis implements java.io.Serializable {
 		this.horodatage = horodatage;
 	}
 
-	@Column(name = "ville_depart", nullable = false, length = 50)
 	public String getVilleDepart() {
 		return this.villeDepart;
 	}
@@ -228,7 +245,6 @@ public class Colis implements java.io.Serializable {
 		this.villeDepart = villeDepart;
 	}
 
-	@Column(name = "ville_arrivee", nullable = false, length = 50)
 	public String getVilleArrivee() {
 		return this.villeArrivee;
 	}
@@ -237,7 +253,6 @@ public class Colis implements java.io.Serializable {
 		this.villeArrivee = villeArrivee;
 	}
 
-	@Column(name = "Description", nullable = false, length = 500)
 	public String getDescription() {
 		return this.description;
 	}
@@ -246,7 +261,6 @@ public class Colis implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@Column(name = "photo_path")
 	public String getPhotoPath() {
 		return this.photoPath;
 	}
@@ -255,7 +269,6 @@ public class Colis implements java.io.Serializable {
 		this.photoPath = photoPath;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "colis")
 	public Set<PriseEnCharge> getPriseEnCharges() {
 		return this.priseEnCharges;
 	}
