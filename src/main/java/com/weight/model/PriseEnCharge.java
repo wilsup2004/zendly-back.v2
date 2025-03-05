@@ -30,36 +30,36 @@ public class PriseEnCharge implements java.io.Serializable {
 	
 	
 	@Id
-	@Column(name = "id_prise")
+	@Column(name = "ID_PRISE")
 	private int idPrise;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_colis")
+	@JoinColumn(name = "ID_COLIS")
 	private Colis colis;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_statut")
+	@JoinColumn(name = "ID_STATUT")
 	private Statuts statuts;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_user_preneur", nullable = false)
+	@JoinColumn(name = "ID_USER_PRENEUR", nullable = false)
 	private Users users;
 	
-	@Column(name = "id_vol", nullable = false, length = 50)
+	@Column(name = "ID_VOL", nullable = false, length = 50)
 	private String idVol;
 	
-	@Column(name = "ville_depart", nullable = false, length = 50)
+	@Column(name = "VILLE_DEPART", nullable = false, length = 50)
 	private String villeDepart;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_depart", length = 19)
+	@Column(name = "DATE_DEPART", length = 19)
 	private Date dateDepart;
 	
-	@Column(name = "ville_arrivee", nullable = false, length = 50)
+	@Column(name = "VILLE_ARRIVEE", nullable = false, length = 50)
 	private String villeArrivee;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_arrivee", length = 19)
+	@Column(name = "DATE_ARRIVEE", length = 19)
 	private Date dateArrivee;
 
 	public PriseEnCharge() {
