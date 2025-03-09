@@ -15,10 +15,10 @@ public class UsersProfilId implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "ID_USER")
+	@Column(name = "id_user")
 	private String idUser;
 	
-	@Column(name = "ID_PROFIL")
+	@Column(name = "id_profil")
 	private int idProfil;
 
 	public UsersProfilId() {

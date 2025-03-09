@@ -13,7 +13,7 @@ import com.weight.model.MessagesId;
 
 public interface MessagesRepository  extends JpaRepository <Messages,MessagesId> {
 
-	String reqInsertMessage= "INSERT INTO MESSAGES (id_prise,id_user_prise,id_user_colis,sender,horodatage,message) "
+	String reqInsertMessage= "INSERT INTO messages (id_prise,id_user_prise,id_user_colis,sender,horodatage,message) "
 			+ "VALUES (:idPrise,:idUserPrise,:idUserColis,:sender,:date,:message ) ";
 	@Modifying
 	@Query(value=reqInsertMessage, nativeQuery = true)
@@ -24,16 +24,16 @@ public interface MessagesRepository  extends JpaRepository <Messages,MessagesId>
 			@Param("date") Date horodatage,
 			@Param("message") String message);
 	
-	String reqLstMessageByIdAndUserColis= "SELECT * FROM MESSAGES "
-			+ "WHERE ID_PRISE = :idPrise "
-			+ "AND ID_USER_COLIS =:idUserColis "
+	String reqLstMessageByIdAndUserColis= "SELECT * FROM messages "
+			+ "WHERE id_prise = :idPrise "
+			+ "AND id_user_colis =:idUserColis "
 			+ "ORDER BY HORODATAGE ";
 	
 	@Query(value = reqLstMessageByIdAndUserColis, nativeQuery = true)
 	List<Messages> getLstMessageByIdAndUserColis(@Param("idPrise") int idPrise,@Param("idUserColis") String idUserColis);
 	
-	String reqLstMessageByIdPrise = "SELECT * FROM MESSAGES "
-			+ "WHERE ID_PRISE = :idPrise "
+	String reqLstMessageByIdPrise = "SELECT * FROM messages "
+			+ "WHERE id_prise = :idPrise "
 			+ "ORDER BY HORODATAGE ";
 	
 	@Query(value = reqLstMessageByIdPrise, nativeQuery = true)

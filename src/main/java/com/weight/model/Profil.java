@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "PROFIL")
+@Table(name = "profil")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Profil implements java.io.Serializable {
 
@@ -29,10 +29,10 @@ public class Profil implements java.io.Serializable {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "ID_PROFIL")
+	@Column(name = "id_profil")
 	private int idProfil;
 	
-	@Column(name = "LIBEL_PROFIL")
+	@Column(name = "libel_profil")
 	private String libelProfil;
 	
 	@JsonIgnore

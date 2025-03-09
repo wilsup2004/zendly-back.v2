@@ -16,10 +16,10 @@ public class UserTradeId implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "ID_DISPO")
+	@Column(name = "id_dispo")
 	private int idDispo;
 	
-	@Column(name = "ID_USER_CANDIDAT")
+	@Column(name = "id_user_candidat")
 	private String idUserCandidat;
 
 	public UserTradeId() {

@@ -13,33 +13,33 @@ import com.weight.views.PropositionView;
 
 public interface UserTradeRepository  extends JpaRepository<UserTrade,UserTradeId>{
 	
-	String reqLstTradeByTransacAndUserAndStatut= "SELECT * FROM USER_TRADE "
+	String reqLstTradeByTransacAndUserAndStatut= "SELECT * FROM user_trade "
 			+ "WHERE ID_DISPO  = :idDispo "
 			+ "AND ID_USER_CANDIDAT  = :userNom "
 			+ "AND ID_STATUT  = :idStatut ";
 	@Query(value=reqLstTradeByTransacAndUserAndStatut, nativeQuery = true)
 	List<UserTrade> getLstTradeByTransacAndCandidatAndStatut(@Param("idDispo") int idDipso,@Param("userNom") String userNom,@Param("idStatut") int idStatut);
 
-	String reqLstTradeByTransacAndUser= "SELECT * FROM USER_TRADE "
+	String reqLstTradeByTransacAndUser= "SELECT * FROM user_trade "
 			+ "WHERE ID_DISPO  = :idDispo "
 			+ "AND ID_USER_CANDIDAT  = :userNom ";
 	@Query(value=reqLstTradeByTransacAndUser, nativeQuery = true)
 	List<UserTrade> getLstTradeByTransacAndCandidat(@Param("idDispo") int idDipso,@Param("userNom") String userNom);
 
 	
-	String reqLstTradeByTransac= "SELECT * FROM USER_TRADE "
+	String reqLstTradeByTransac= "SELECT * FROM user_trade "
 			+ "WHERE ID_DISPO  = :idDispo ";
 	@Query(value=reqLstTradeByTransac, nativeQuery = true)
 	List<UserTrade> getLstTradeByTransac(@Param("idDispo") int idDipso);
 
 	
-	String reqLstTradeByUser= "SELECT * FROM USER_TRADE "
+	String reqLstTradeByUser= "SELECT * FROM user_trade "
 			+ "WHERE ID_USER_CANDIDAT  = :userNom ";
 	@Query(value=reqLstTradeByUser, nativeQuery = true)
 	List<UserTrade> getLstTradeByCandidat(@Param("userNom") String userNom);
 
 	
-	String reqNewProposition= "INSERT INTO USER_TRADE "
+	String reqNewProposition= "INSERT INTO user_trade "
 			+"( id_dispo,id_user_candidat,nb_kilo_achete,id_statut) " 
 			+"VALUES "
 			+"( :idDispo,:idUserCandidat,:nbKiloAchete,4) ";
@@ -50,14 +50,14 @@ public interface UserTradeRepository  extends JpaRepository<UserTrade,UserTradeI
 
 	
 	
-	String reqModifProposition= "UPDATE USER_TRADE SET id_statut = :idStatut "
+	String reqModifProposition= "UPDATE user_trade SET id_statut = :idStatut "
 			+ "WHERE ID_DISPO  = :idDispo "
 			+ "AND ID_USER_CANDIDAT  = :idUserCandidat ";
 	@Modifying
 	@Query(value=reqModifProposition, nativeQuery = true)
 	void updateStatutProposition(@Param("idDispo") int idDispo,@Param("idUserCandidat") String idUserCandidat,@Param("idStatut") int idStatut);
 	
-	String reqModifPropositionKiloAndStatus= "UPDATE USER_TRADE SET "
+	String reqModifPropositionKiloAndStatus= "UPDATE user_trade SET "
 			+ "id_statut = :idStatut, "
 			+ "nb_kilo_achete = :nbKilo "
 			+ "WHERE ID_DISPO  = :idDispo "

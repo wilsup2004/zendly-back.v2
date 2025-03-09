@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "AEROPORT")
+@Table(name = "aeroport")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Aeroport implements java.io.Serializable,Comparable<Aeroport>  {
 
@@ -20,22 +20,22 @@ public class Aeroport implements java.io.Serializable,Comparable<Aeroport>  {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name = "ID_AERO")
+	@Column(name = "id_aero")
 	private String idAero;
 	
-	@Column(name = "AERO_NOM", length = 100)
+	@Column(name = "aero_nom", length = 100)
 	private String aeroNom;
 	
-	@Column(name = "AERO_VILLE", length = 100)
+	@Column(name = "aero_ville", length = 100)
 	private String aeroVille;
 	
-	@Column(name = "AERO_PAYS", length = 100)
+	@Column(name = "aero_pays", length = 100)
 	private String aeroPays;
 	
-	@Column(name = "AERO_LATITUDE")
+	@Column(name = "aero_latitude")
 	private Float aeroLatitude;
 	
-	@Column(name = "AERO_LONGITUDE")
+	@Column(name = "aero_longitude")
 	private Float aeroLongitude;
 	
 

@@ -16,10 +16,10 @@ public class TranspTradeId implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name = "ID_DISPO", nullable = false)
+	@Column(name = "id_dispo", nullable = false)
 	private int idDispo;
 	
-	@Column(name = "ID_USER_CANDIDAT", nullable = false, length = 50)
+	@Column(name = "id_user_candidat", nullable = false, length = 50)
 	private String idUserCandidat;
 
 	public TranspTradeId() {

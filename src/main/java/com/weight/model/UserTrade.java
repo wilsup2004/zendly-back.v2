@@ -184,7 +184,7 @@ resultSetMapping = "PropositionResult")
 
 
 @Entity
-@Table(name = "USER_TRADE")
+@Table(name = "user_trade")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class UserTrade implements java.io.Serializable, Comparable<UserTrade> {
 
@@ -196,19 +196,19 @@ public class UserTrade implements java.io.Serializable, Comparable<UserTrade> {
 	
 	@EmbeddedId
 	@AttributeOverrides({
-			@AttributeOverride(name = "idDispo", column = @Column(name = "ID_DISPO", nullable = false)),
-			@AttributeOverride(name = "idUserCandidat", column = @Column(name = "ID_USER_CANDIDAT", nullable = false)) })
+			@AttributeOverride(name = "idDispo", column = @Column(name = "id_dispo", nullable = false)),
+			@AttributeOverride(name = "idUserCandidat", column = @Column(name = "id_user_candidat", nullable = false)) })
 	private UserTradeId id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ID_STATUT", nullable = false, insertable = true, updatable = true)
+	@JoinColumn(name = "id_statut", nullable = false, insertable = true, updatable = true)
 	private Statuts statuts;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_user_candidat",referencedColumnName="ID_USER", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "id_user_candidat",referencedColumnName="id_user", nullable = false, insertable = false, updatable = false)
 	private Users users;
 	
-	@Column(name = "NB_KILO_ACHETE")
+	@Column(name = "nb_kilo_achete")
 	private Integer nbKiloAchete;
 
 	public UserTrade() {

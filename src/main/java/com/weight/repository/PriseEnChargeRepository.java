@@ -18,18 +18,18 @@ public interface PriseEnChargeRepository extends JpaRepository<PriseEnCharge,Int
 	
 	PriseEnCharge findByColis(Colis colis);
 	
-	String reqLstByStatut = "SELECT * FROM PRISE_EN_CHARGE "
+	String reqLstByStatut = "SELECT * FROM prise_en_charge "
 			+ "WHERE ID_STATUT = :statut ";
 	@Query(value= reqLstByStatut, nativeQuery = true)
 	List<PriseEnCharge> findLstByStatut(@Param("statut") Integer statut);
 	
-	String reqLstEnCoursByUser = "SELECT * FROM PRISE_EN_CHARGE "
+	String reqLstEnCoursByUser = "SELECT * FROM prise_en_charge "
 			+ "WHERE ID_USER_PRENEUR = :idUser "
 			+ "AND ID_STATUT <= 8 ";
 	@Query(value=reqLstEnCoursByUser, nativeQuery = true)
 	List<PriseEnCharge> getLstEnCoursByUser(@Param("idUser") String idUser);
 
-	String reqLstByUserAndStatut = "SELECT * FROM PRISE_EN_CHARGE "
+	String reqLstByUserAndStatut = "SELECT * FROM prise_en_charge "
 			+ "WHERE ID_USER_PRENEUR = :idUser "
 			+ "AND ID_STATUT = :statut ";
 	@Query(value=reqLstByUserAndStatut, nativeQuery = true)

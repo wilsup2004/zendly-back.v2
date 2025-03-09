@@ -9,13 +9,13 @@ import com.weight.model.Statuts;
 
 public interface StatutsRepository  extends JpaRepository<Statuts,Integer>{
 	
-	String reqLstStatutsForTransaction= "SELECT * FROM STATUTS "
+	String reqLstStatutsForTransaction= "SELECT * FROM statuts "
 			+ "WHERE LIBEL_STATUT IN ('CREE','EN COURS','CLOTUREE')";
 	@Query(value=reqLstStatutsForTransaction, nativeQuery = true)
 	List<Statuts> getLstStatutsForTransaction();
 
 	
-	String reqLstStatutsForProposition= "SELECT * FROM STATUTS "
+	String reqLstStatutsForProposition= "SELECT * FROM statuts "
 			+ "WHERE LIBEL_STATUT NOT IN ('CREE','EN COURS','CLOTUREE')";
 	@Query(value=reqLstStatutsForProposition, nativeQuery = true)
 	List<Statuts> getLstStatutsForProposition();

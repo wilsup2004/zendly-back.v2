@@ -60,10 +60,10 @@ public class PropositionView  implements Comparable<PropositionView>{
 		this.idUserInitiateur = userDispo.getUsers().getIdUser();
 		this.idVol = userDispo.getIdVol();
 		this.villeDepart = userDispo.getVilleDepart();
-		this.aeronomDepart = userDispo.getAeronomDepart();
+	//	this.aeronomDepart = userDispo.getAeronomDepart();
 		this.dateDepart = userDispo.getDateDepart();
 		this.villeArrivee = userDispo.getVilleArrivee();
-		this.aeronomArrivee = userDispo.getAeronomArrivee();
+	//	this.aeronomArrivee = userDispo.getAeronomArrivee();
 		this.dateArrivee = userDispo.getDateArrivee();
 		this.nbKiloAchete = userDispo.getNbKiloDispo();
 		this.idStatut = userDispo.getStatuts().getIdStatut();

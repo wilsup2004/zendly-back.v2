@@ -308,14 +308,14 @@ public class Controller {
 			String idUser = userDispo.getUsers().getIdUser();
 			String idVol = userDispo.getIdVol();
 			String villeDepart = userDispo.getVilleDepart();
-			String aeronomDepart = userDispo.getAeronomDepart();
+		//	String aeronomDepart = userDispo.getAeronomDepart();
 			Date datedepart = userDispo.getDateDepart();
 			String villeArrivee= userDispo.getVilleArrivee();
-			String aeronomArrivee= userDispo.getAeronomArrivee();
+		//	String aeronomArrivee= userDispo.getAeronomArrivee();
 			Date dateArrivee = userDispo.getDateArrivee();
 			int nbKiloDispo = userDispo.getNbKiloDispo();
 
-			userdiporepository.createTransaction(idUser, idVol, villeDepart,aeronomDepart, datedepart, villeArrivee,aeronomArrivee, dateArrivee, nbKiloDispo);
+		//	userdiporepository.createTransaction(idUser, idVol, villeDepart,aeronomDepart, datedepart, villeArrivee,aeronomArrivee, dateArrivee, nbKiloDispo);
 			res = new ResponseEntity<>(msg,httpRes);
 
 		}catch (Exception e) {
