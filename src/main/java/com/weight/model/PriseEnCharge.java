@@ -3,6 +3,9 @@ package com.weight.model;
 
 import java.util.Date;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -30,6 +33,7 @@ public class PriseEnCharge implements java.io.Serializable {
 	
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_prise")
 	private int idPrise;
 	
