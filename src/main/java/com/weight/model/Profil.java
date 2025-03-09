@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "profil")
+@Table(name = "PROFIL")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Profil implements java.io.Serializable {
 

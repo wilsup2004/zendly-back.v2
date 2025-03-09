@@ -1290,7 +1290,7 @@ public class Controller {
 			res = new ResponseEntity<>(lst,httpRes);
 
 		else {
-			msg ="Aucune proposition trouvée";
+			msg ="Aucun Colis trouvé";
 			logger.warn(msg);
 			httpRes = HttpStatus.NOT_FOUND;
 			res = new ResponseEntity<>(msg,httpRes);
