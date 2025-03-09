@@ -295,7 +295,7 @@ public class Controller {
 	}
 
 	//***************************  GESTION DES ECHANGES ***************************************//
-
+/*
 	@Transactional
 	@PostMapping("/usersDispo")
 	public ResponseEntity<?> createUserDispo(@RequestBody UsersDispo userDispo) {
@@ -331,7 +331,7 @@ public class Controller {
 
 	}
 
-
+*/
 	@GetMapping(value = "/usersDispo")
 	public ResponseEntity<?>  getAllUsersDispoEncours() {
 		logger.info("Récupération de toutes les transactions en cours");
