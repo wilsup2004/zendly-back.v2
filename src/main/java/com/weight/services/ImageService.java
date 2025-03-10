@@ -16,9 +16,9 @@ public class ImageService {
 	//@Value("${upload.img.colis.dir}")
 	// private String uploadDir;
 			 
-    private String uploadColisDir="C:/Dev/img/colis";
-    private String uploadProfileDir="C:/Dev/img/profile";
-    private String defaultDir="src/img";
+    private String uploadColisDir="/var/images/colis";
+    private String uploadProfileDir="/var/images/profile";
+    private String defaultDir="/var/images/default";
     private String fileNameDefault = "no_photo_default.jpeg";
     
 	
