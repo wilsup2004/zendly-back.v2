@@ -19,6 +19,11 @@ public class ImageService {
     private String uploadColisDir="/var/images/colis";
     private String uploadProfileDir="/var/images/profile";
     private String defaultDir="/var/images/default";
+    
+    private String s3uploadColisDir="colis";
+    private String s3uploadProfileDir="profile";
+    private String s3defaultDir="default";
+    
     private String fileNameDefault = "no_photo_default.jpeg";
     
 	
@@ -80,4 +85,55 @@ public class ImageService {
 		Path filePath = Paths.get(defaultDir, fileNameDefault);	
         return Files.readAllBytes(filePath);
     }
+	
+	
+	//*****************************  GESTION AWS S3 *********************************************************//
+	
+	public String uploadImage(MultipartFile file,String type,S3Service s3Service) throws IOException {
+		String uploadDir = s3uploadColisDir;
+		
+		if(type.equals("profile"))
+			uploadDir = s3uploadProfileDir;
+
+        // Enregistrer le fichier dans le répertoire local
+        String fileName = s3Service.uploadFile(file, uploadDir);
+        
+        return fileName;
+    }
+	
+	 // Télécharger une image depuis S3
+    public File downloadImage(String fileName,String type,S3Service s3Service ) {
+    	String uploadDir = s3uploadColisDir;
+		if(type.equals("profile"))
+			uploadDir = s3uploadProfileDir;
+		
+        File downloadedFile = s3Service.downloadFile(uploadDir,fileName);
+
+        return downloadedFile;
+    }
+    
+    
+    // Télécharger une image depuis S3
+    public File downloadImageDefault(S3Service s3Service ) {
+		
+        File downloadedFile = s3Service.downloadFile(s3defaultDir,fileNameDefault);
+
+        return downloadedFile;
+    }
+    
+    
+    public void deleteImage(String fileName,String type,S3Service s3Service ) {
+
+		String uploadDir = s3uploadColisDir;
+
+		if(type.equals("profile"))
+			uploadDir = s3uploadProfileDir;
+
+		try {
+			s3Service.deleteFile(uploadDir,fileName);
+		} catch (Exception ex) {
+			System.out.println("Erreur lors de la suppression du fichier: " + ex.getMessage());
+		}
+	}
+   
 }

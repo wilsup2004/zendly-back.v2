@@ -1,6 +1,7 @@
 
 package com.weight.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import com.weight.repository.UserTradeRepository;
 import com.weight.repository.UsersDispoRepository;
 import com.weight.repository.UsersProfilRepository;
 import com.weight.services.ImageService;
+import com.weight.services.S3Service;
 import com.weight.services.Vol;
 import com.weight.services.VolServices;
 import com.weight.views.ColisView;
@@ -87,6 +89,9 @@ public class Controller {
 	
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private S3Service s3Service;
 
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -1069,7 +1074,8 @@ public class Controller {
 			System.out.println( "nom du fichier : "+file.getName());
 			//1- On copie la photo (si il y en a)
 			if(file!=null && !file.getOriginalFilename().isEmpty()) {
-				String filename = imageService.uploadImage(file,"colis");
+				//String filename = imageService.uploadImage(file,"colis");
+				String filename = imageService.uploadImage(file,"colis",s3Service);
 				newColis.setPhotoPath(filename);
 			}
 
@@ -1141,7 +1147,8 @@ public class Controller {
 			if(majPhoto) {
 				//1- On dois supprimer l'ancienne photo (si il y en a)
 				if(filenameInit!= null) {
-					imageService.deleteImage(colisToUpdate.getPhotoPath(), "colis");
+					//imageService.deleteImage(colisToUpdate.getPhotoPath(), "colis");
+					imageService.deleteImage(colisToUpdate.getPhotoPath(), "colis",s3Service);
 					newColis.setPhotoPath(null);
 				}
 				
@@ -1180,41 +1187,36 @@ public class Controller {
 		ResponseEntity<?> res = null;
 
 		Colis colis= colisrepository.findById(id).get();
-		byte[] image;
+		//byte[] image;
+		File image;
 
 		if(colis.getPhotoPath() != null && !colis.getPhotoPath().isBlank()) {
 			
-			try {
-				image = imageService.downloadImage(colis.getPhotoPath() , "colis");
+			//image = imageService.downloadImage(colis.getPhotoPath() , "colis");
+			image = imageService.downloadImage(colis.getPhotoPath() , "colis",s3Service);
 
-				HttpHeaders headers = new HttpHeaders();
-				headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
-				res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
-
-			} catch (IOException e) {
-				msg ="Une erreur est survenue lors de la récupération de l'image pour le colis [ID]= "+id+" :"+e;
-				logger.error(msg);
-				httpRes = HttpStatus.EXPECTATION_FAILED;
-				res = new ResponseEntity<>(msg,httpRes);
-			}
+			/*
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
+			res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+			*/
 
 		}else {
 			
-			try {
-				image = imageService.downloadImageDefault();
+			// image = imageService.downloadImageDefault();
+			image = imageService.downloadImageDefault(s3Service);
 
-				HttpHeaders headers = new HttpHeaders();
-				headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
-				res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
-				
-
-			} catch (IOException e) {
-				msg ="Une erreur est survenue lors de la récupération de l'image par defaut :"+e;
-				logger.error(msg);
-				httpRes = HttpStatus.EXPECTATION_FAILED;
-				res = new ResponseEntity<>(msg,httpRes);
-			}
+			/*
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
+			res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+			*/
 		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
+		res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+
 
 		logger.info(msg);
 		return  res;
