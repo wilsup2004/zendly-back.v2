@@ -1187,36 +1187,48 @@ public class Controller {
 		ResponseEntity<?> res = null;
 
 		Colis colis= colisrepository.findById(id).get();
-		//byte[] image;
-		File image;
-
-		if(colis.getPhotoPath() != null && !colis.getPhotoPath().isBlank()) {
-			
-			//image = imageService.downloadImage(colis.getPhotoPath() , "colis");
-			image = imageService.downloadImage(colis.getPhotoPath() , "colis",s3Service);
-
-			/*
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
-			res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
-			*/
-
-		}else {
-			
-			// image = imageService.downloadImageDefault();
-			image = imageService.downloadImageDefault(s3Service);
-
-			/*
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
-			res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
-			*/
-		}
+		byte[] image;
+		//File image;
 		
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
-		res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+		try {
+			
+			if(colis.getPhotoPath() != null && !colis.getPhotoPath().isBlank()) {
+				
+				//image = imageService.downloadImage(colis.getPhotoPath() , "colis");
+				image = imageService.downloadImage(colis.getPhotoPath() , "colis",s3Service);
 
+				/*
+				HttpHeaders headers = new HttpHeaders();
+				headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
+				res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+				*/
+
+			}else {
+				
+				// image = imageService.downloadImageDefault();
+				image = imageService.downloadImageDefault(s3Service);
+
+				/*
+				HttpHeaders headers = new HttpHeaders();
+				headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
+				res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+				*/
+			}
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
+			res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
+
+			
+		}catch (Exception e) {
+			msg ="Impossible de récupérer l'image:" + e.getMessage();
+			logger.error(msg);
+			httpRes = HttpStatus.EXPECTATION_FAILED;
+			res = new ResponseEntity<>(msg,httpRes);
+		}
+
+		
+		
+		
 
 		logger.info(msg);
 		return  res;

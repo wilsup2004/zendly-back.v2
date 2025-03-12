@@ -102,23 +102,24 @@ public class ImageService {
     }
 	
 	 // Télécharger une image depuis S3
-    public File downloadImage(String fileName,String type,S3Service s3Service ) {
+    public  byte[] downloadImage(String fileName,String type,S3Service s3Service ) throws IOException {
+    	byte[] image;
     	String uploadDir = s3uploadColisDir;
 		if(type.equals("profile"))
 			uploadDir = s3uploadProfileDir;
 		
-        File downloadedFile = s3Service.downloadFile(uploadDir,fileName);
+		image = s3Service.downloadFile(uploadDir,fileName);
 
-        return downloadedFile;
+        return image;
     }
     
     
     // Télécharger une image depuis S3
-    public File downloadImageDefault(S3Service s3Service ) {
-		
-        File downloadedFile = s3Service.downloadFile(s3defaultDir,fileNameDefault);
+    public  byte[] downloadImageDefault(S3Service s3Service ) throws IOException {
+    	 byte[] image;
+    	 image = s3Service.downloadFile(s3defaultDir,fileNameDefault);
 
-        return downloadedFile;
+        return image;
     }
     
     
