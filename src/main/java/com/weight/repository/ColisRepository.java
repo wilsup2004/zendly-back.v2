@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.weight.model.Colis;
+import com.weight.model.Statuts;
 
 public interface ColisRepository extends JpaRepository<Colis,Integer>  {
 
@@ -43,4 +44,22 @@ public interface ColisRepository extends JpaRepository<Colis,Integer>  {
 	@Query(value=reqLstByTrajetAndStatutForUser, nativeQuery = true)
 	List<Colis> getLstByTrajetAndStatutForUser(@Param("origine") String origine,@Param("destination") String destination,@Param("idUser") String idUser,@Param("statut") Integer statut);
 	
+	
+
+    // Nouvelles méthodes pour les statistiques
+    @Query("SELECT COUNT(c) FROM Colis c WHERE c.statuts = :statut")
+    Long countByStatuts(@Param("statut") Statuts statut);
+    
+    @Query("SELECT COUNT(c) FROM Colis c WHERE c.statuts.idStatut = :statutId")
+    Long countByStatutsId(@Param("statutId") Integer statutId);
+    
+    @Query("SELECT COUNT(c) FROM Colis c WHERE MONTH(c.horodatage) = :month AND YEAR(c.horodatage) = :year")
+    Long countByMonth(@Param("month") int month, @Param("year") int year);
+    
+    @Query("SELECT c.villeDepart, COUNT(c) FROM Colis c GROUP BY c.villeDepart ORDER BY COUNT(c) DESC")
+    List<Object[]> countByDepartureCity();
+    
+    @Query("SELECT c.villeArrivee, COUNT(c) FROM Colis c GROUP BY c.villeArrivee ORDER BY COUNT(c) DESC")
+    List<Object[]> countByArrivalCity();
+    
 }

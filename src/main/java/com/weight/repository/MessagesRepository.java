@@ -39,4 +39,37 @@ public interface MessagesRepository  extends JpaRepository <Messages,MessagesId>
 	@Query(value = reqLstMessageByIdPrise, nativeQuery = true)
 	List<Messages> getLstMessageByIdPrise(@Param("idPrise") int idPrise);
 	
+	   
+    // Nouvelles méthodes
+    String reqLstMessageByIdPriseAndDate = "SELECT * FROM messages "
+            + "WHERE id_prise = :idPrise "
+            + "AND horodatage = :date";
+    
+    @Query(value = reqLstMessageByIdPriseAndDate, nativeQuery = true)
+    List<Messages> getLstMessageByIdPriseAndDate(@Param("idPrise") int idPrise, @Param("date") Date date);
+    
+    String reqLstUnreadMessagesByUser = "SELECT * FROM messages "
+            + "WHERE (id_user_prise = :userId OR id_user_colis = :userId) "
+            + "AND sender != :userId "
+            + "AND is_read = false "
+            + "ORDER BY horodatage DESC";
+    
+    @Query(value = reqLstUnreadMessagesByUser, nativeQuery = true)
+    List<Messages> getLstUnreadMessagesByUser(@Param("userId") String userId);
+    
+    String reqCountUnreadMessagesByUser = "SELECT COUNT(*) FROM messages "
+            + "WHERE (id_user_prise = :userId OR id_user_colis = :userId) "
+            + "AND sender != :userId "
+            + "AND is_read = false";
+    
+    @Query(value = reqCountUnreadMessagesByUser, nativeQuery = true)
+    int countUnreadMessagesByUser(@Param("userId") String userId);
+    
+    String reqActiveConversationsByUser = "SELECT DISTINCT id_prise FROM messages "
+            + "WHERE (id_user_prise = :userId OR id_user_colis = :userId) "
+            + "ORDER BY horodatage DESC";
+    
+    @Query(value = reqActiveConversationsByUser, nativeQuery = true)
+    List<Integer> findActiveConversationsByUser(@Param("userId") String userId);
+	
 }

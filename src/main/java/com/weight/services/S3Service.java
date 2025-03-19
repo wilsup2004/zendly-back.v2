@@ -66,7 +66,7 @@ public class S3Service {
     // Télécharger une image depuis S3
     public  byte[]  downloadFile(String directory, String fileName) throws IOException {
         String key = "images/" + directory + "/" + fileName;
-        File downloadedFile = new File(fileName);
+        //File downloadedFile = new File(fileName);
 
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)

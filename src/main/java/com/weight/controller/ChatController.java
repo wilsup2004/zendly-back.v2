@@ -35,7 +35,7 @@ public class ChatController {
 	private SimpMessagingTemplate messagingTemplate;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+/*
 	@Transactional
 	@MessageMapping("/chat/{roomId}")
 	public void sendMessage(@DestinationVariable String roomId, @Payload MessageView message) {
@@ -60,7 +60,7 @@ public class ChatController {
 
 		messagingTemplate.convertAndSend("/topic/chat/" + roomId, message);
 	}
-
+*/
 
 	@GetMapping("/history/{roomId}")
 	@ResponseBody
