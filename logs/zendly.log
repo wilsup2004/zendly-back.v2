@@ -5475,3 +5475,24 @@
 2025-04-13 17:35:28 [http-nio-0.0.0.0-8081-exec-10] INFO  c.w.c.EnhancedChatController - Comptage des messages non lus pour l'utilisateur: Wilsup
 2025-04-13 17:35:28 [http-nio-0.0.0.0-8081-exec-2] INFO  c.w.c.EnhancedChatController - Récupération de l'historique des messages pour la prise en charge: 1
 2025-04-13 17:35:28 [http-nio-0.0.0.0-8081-exec-6] INFO  c.w.c.EnhancedChatController - Récupération de l'historique des messages pour la prise en charge: 3
+2025-04-13 17:36:28 [http-nio-0.0.0.0-8081-exec-9] INFO  c.w.c.EnhancedChatController - Comptage des messages non lus pour l'utilisateur: Gringo
+2025-04-13 17:36:28 [http-nio-0.0.0.0-8081-exec-3] INFO  c.w.c.EnhancedChatController - Récupération des conversations actives pour l'utilisateur: Gringo
+2025-04-13 17:36:28 [http-nio-0.0.0.0-8081-exec-4] INFO  c.w.c.EnhancedChatController - Récupération des conversations actives pour l'utilisateur: Wilsup
+2025-04-13 17:36:28 [http-nio-0.0.0.0-8081-exec-8] INFO  c.w.c.EnhancedChatController - Comptage des messages non lus pour l'utilisateur: Wilsup
+2025-04-13 17:36:28 [http-nio-0.0.0.0-8081-exec-7] INFO  c.w.c.EnhancedChatController - Récupération de l'historique des messages pour la prise en charge: 1
+2025-04-13 17:36:28 [http-nio-0.0.0.0-8081-exec-1] INFO  c.w.c.EnhancedChatController - Récupération de l'historique des messages pour la prise en charge: 3
+2025-04-13 17:37:28 [http-nio-0.0.0.0-8081-exec-10] INFO  c.w.c.EnhancedChatController - Comptage des messages non lus pour l'utilisateur: Gringo
+2025-04-13 17:37:28 [http-nio-0.0.0.0-8081-exec-2] INFO  c.w.c.EnhancedChatController - Récupération des conversations actives pour l'utilisateur: Gringo
+2025-04-13 17:37:28 [http-nio-0.0.0.0-8081-exec-6] INFO  c.w.c.EnhancedChatController - Récupération des conversations actives pour l'utilisateur: Wilsup
+2025-04-13 17:37:28 [http-nio-0.0.0.0-8081-exec-5] INFO  c.w.c.EnhancedChatController - Comptage des messages non lus pour l'utilisateur: Wilsup
+2025-04-13 17:37:28 [http-nio-0.0.0.0-8081-exec-3] INFO  c.w.c.EnhancedChatController - Récupération de l'historique des messages pour la prise en charge: 1
+2025-04-13 17:37:28 [http-nio-0.0.0.0-8081-exec-9] INFO  c.w.c.EnhancedChatController - Récupération de l'historique des messages pour la prise en charge: 3
+2025-04-13 17:37:36 [RMI TCP Connection(950)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2025-04-13 17:37:36 [RMI TCP Connection(950)-127.0.0.1] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Stopping...
+2025-04-13 17:37:36 [RMI TCP Connection(950)-127.0.0.1] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2ff84e42]]
+2025-04-13 17:37:36 [RMI TCP Connection(950)-127.0.0.1] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Stopped.
+2025-04-13 17:37:36 [RMI TCP Connection(950)-127.0.0.1] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-04-13 17:37:36 [RMI TCP Connection(950)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+2025-04-13 17:37:37 [RMI TCP Connection(950)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-13 17:37:37 [RMI TCP Connection(950)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-04-13 17:37:37 [RMI TCP Connection(950)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
