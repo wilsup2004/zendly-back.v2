@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,7 +56,7 @@ import com.weight.views.UsersView;
 
 
 //@CrossOrigin(origins = {"http://192.168.1.21:4200","http://localhost:4200"})
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/trade")
 public class Controller {
@@ -81,13 +81,13 @@ public class Controller {
 
 	@Autowired
 	private ColisRepository colisrepository;
-	
+
 	@Autowired
 	private PriseEnChargeRepository priserepository;
-	
+
 	@Autowired
 	private ImageService imageService;
-	
+
 	@Autowired
 	private S3Service s3Service;
 
@@ -126,7 +126,7 @@ public class Controller {
 		HttpStatus httpRes = HttpStatus.OK;
 		ResponseEntity<?> res = null;
 
-		Users user = userrepository.getReferenceById(id);
+		Users user = userrepository.findByIdUser(id);
 
 		if(user != null ) 
 			res = new ResponseEntity<>(user,httpRes);
@@ -186,6 +186,25 @@ public class Controller {
 		logger.info(msg);
 		return  res;
 	}
+	
+	@GetMapping("/users/check-pseudo")
+	public ResponseEntity<?> checkPseudo(String pseudo) {
+		logger.info("Verification en base de l'existence d'un pseudo");
+		String msg ="Opération réalisée avec succès";
+		HttpStatus httpRes = HttpStatus.OK;
+		ResponseEntity<?> res = null;
+		boolean userExist = false;
+
+		Users user = userrepository.findByIdUser(pseudo);
+		if(user != null) 
+			userExist = true;
+			
+		res = new ResponseEntity<>(userExist,httpRes);
+		
+
+		logger.info(msg);
+		return  res;
+	}
 
 	@PostMapping("/users")
 	public ResponseEntity<?> createUser(@RequestBody Users user) {
@@ -196,10 +215,9 @@ public class Controller {
 
 		try {
 
-			Users userCheck = new Users(
-					user.getIdUser(), user.getNom(), user.getPrenom(), user.getMail(), user.getPassword(), null);
-			userrepository.saveAndFlush(userCheck);
-
+			
+			userrepository.saveAndFlush(user);
+/*
 			if( user.getUsersProfils()!= null && user.getUsersProfils().size()>0) {
 				for(UsersProfil userPro: user.getUsersProfils()) {
 					userprofilrepository.saveAndFlush(userPro);
@@ -208,6 +226,7 @@ public class Controller {
 			}
 
 			userrepository.saveAndFlush(userCheck);
+*/
 			res = new ResponseEntity<>(msg,httpRes);
 
 		}catch (Exception e) {
@@ -231,7 +250,7 @@ public class Controller {
 		ResponseEntity<?> res = null;
 
 		try {
-			Users user = view.toUser(userrepository);
+			Users user = view.toUserInfo(userrepository);
 			userrepository.saveAndFlush(user);
 			res = new ResponseEntity<>(msg,httpRes);
 
@@ -298,7 +317,7 @@ public class Controller {
 	}
 
 	//***************************  GESTION DES ECHANGES ***************************************//
-/*
+	/*
 	@Transactional
 	@PostMapping("/usersDispo")
 	public ResponseEntity<?> createUserDispo(@RequestBody UsersDispo userDispo) {
@@ -334,7 +353,7 @@ public class Controller {
 
 	}
 
-*/
+	 */
 	@GetMapping(value = "/usersDispo")
 	public ResponseEntity<?>  getAllUsersDispoEncours() {
 		logger.info("Récupération de toutes les transactions en cours");
@@ -920,7 +939,7 @@ public class Controller {
 		logger.info(msg);
 		return  res;
 	}
-	
+
 	@GetMapping("/flight/search/vol")
 	public ResponseEntity<?> getVolByTrajetAndIdAndStatut(String idOrigine,String idDestination,String idVol,String statut) {
 
@@ -1038,20 +1057,22 @@ public class Controller {
 
 	//***************************  GESTION DES COLIS ***************************************//
 
+
 	@Transactional
 	@PostMapping("/colis")
 	public ResponseEntity<?> createColis(
-			@RequestParam("idStatut") Integer idStatut,
-			@RequestParam("idUser")  String idUser,
-			@RequestParam("longueur")  BigDecimal longueur,
-			@RequestParam("largeur")  BigDecimal largeur,
-			@RequestParam("hauteur")  BigDecimal hauteur,
-			@RequestParam("nbKilo")  BigDecimal nbKilo,
-			@RequestParam("tarif")  BigDecimal tarif,
-			@RequestParam("villeDepart")  String villeDepart,
-			@RequestParam("villeArrivee")  String villeArrivee,
-			@RequestParam("description")  String description,
-			@RequestParam("file")  MultipartFile file
+			Integer idStatut,
+			String idUser,
+			BigDecimal longueur,
+			BigDecimal largeur,
+			BigDecimal hauteur,
+			BigDecimal nbKilo,
+			BigDecimal tarif,
+			String villeDepart,
+			String villeArrivee,
+			String description,
+			MultipartFile file
+
 			) {
 		logger.info("Création d'un colis ");
 		String msg ="Opération réalisée avec succès";
@@ -1060,16 +1081,23 @@ public class Controller {
 
 		try {
 			Date horodatage = new Date();
+			ColisView view = null;
 
-			ColisView view = new ColisView(null, idStatut, idUser, longueur, 
-					largeur, hauteur, nbKilo,tarif, horodatage, villeDepart, 
-					villeArrivee, description, null, file);
+			if (file != null)
+
+				view = new ColisView(null, idStatut, idUser, longueur, 
+						largeur, hauteur, nbKilo,tarif, horodatage, villeDepart, 
+						villeArrivee, description, null, file);
+			else
+				view = new ColisView(null, idStatut, idUser, longueur, 
+						largeur, hauteur, nbKilo,tarif, horodatage, villeDepart, 
+						villeArrivee, description, null, null);
 
 			Colis newColis = view.toColis(colisrepository, statutsrepository, userrepository);
 
 			//Statuts statutCree = statutsrepository.findById(1).get();
 			//newColis.setStatuts(statutCree);
-			System.out.println( "nom du fichier : "+file.getName());
+			//System.out.println( "nom du fichier : "+file.getName());
 			//1- On copie la photo (si il y en a)
 			if(file!=null && !file.getOriginalFilename().isEmpty()) {
 				//String filename = imageService.uploadImage(file,"colis");
@@ -1094,7 +1122,7 @@ public class Controller {
 		return  res;
 
 	}
-	
+
 	@Transactional
 	@PutMapping("/colis")
 	public ResponseEntity<?> updateColis(
@@ -1120,7 +1148,7 @@ public class Controller {
 
 		try {
 			Colis colisToUpdate = colisrepository.findById(idColis).get();
-			
+
 			if(file!=null) {
 				if(colisToUpdate.getPhotoPath()!= null) {					
 					String[] parts = colisToUpdate.getPhotoPath().split("_");
@@ -1135,7 +1163,7 @@ public class Controller {
 					filenameInit = "default";
 				}
 			}
-			
+
 			ColisView view = new ColisView(null, idStatut, idUser, longueur, 
 					largeur, hauteur, nbKilo,tarif, null, villeDepart, 
 					villeArrivee, description, null, file);
@@ -1149,14 +1177,14 @@ public class Controller {
 					imageService.deleteImage(colisToUpdate.getPhotoPath(), "colis",s3Service);
 					newColis.setPhotoPath(null);
 				}
-				
+
 				//2- On copie la nouvelle photo
 				if(file!=null && !file.getOriginalFilename().isEmpty()) {
 					String filename = imageService.uploadImage(file,"colis");
 					newColis.setPhotoPath(filename);
 				}
 			}
-		
+
 
 			//2- on sauvegarde les infos du colis en base
 			colisrepository.saveAndFlush(newColis);
@@ -1187,11 +1215,11 @@ public class Controller {
 		Colis colis= colisrepository.findById(id).get();
 		byte[] image;
 		//File image;
-		
+
 		try {
-			
+
 			if(colis.getPhotoPath() != null && !colis.getPhotoPath().isBlank()) {
-				
+
 				//image = imageService.downloadImage(colis.getPhotoPath() , "colis");
 				image = imageService.downloadImage(colis.getPhotoPath() , "colis",s3Service);
 
@@ -1199,10 +1227,10 @@ public class Controller {
 				HttpHeaders headers = new HttpHeaders();
 				headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
 				res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
-				*/
+				 */
 
 			}else {
-				
+
 				// image = imageService.downloadImageDefault();
 				image = imageService.downloadImageDefault(s3Service);
 
@@ -1210,13 +1238,13 @@ public class Controller {
 				HttpHeaders headers = new HttpHeaders();
 				headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
 				res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
-				*/
+				 */
 			}
 			HttpHeaders headers = new HttpHeaders();
 			headers.set("Content-Type", "image/jpeg"); // Ajuste le type MIME selon l'image
 			res =  new ResponseEntity<>(image, headers, HttpStatus.OK);
 
-			
+
 		}catch (Exception e) {
 			msg ="Impossible de récupérer l'image:" + e.getMessage();
 			logger.error(msg);
@@ -1224,14 +1252,14 @@ public class Controller {
 			res = new ResponseEntity<>(msg,httpRes);
 		}
 
-		
-		
-		
+
+
+
 
 		logger.info(msg);
 		return  res;
 	}
-	
+
 	@Transactional
 	@PutMapping("/colis/annule")
 	public ResponseEntity<?> annulePriseEnCharge ( @RequestBody Colis colis) {
@@ -1244,12 +1272,12 @@ public class Controller {
 			//Récupération du colis en base pour recupérer la prise en charge
 			Colis colisBase  = colisrepository.findById(colis.getIdColis()).get();
 			PriseEnCharge priseEnCharge = colisBase.getPriseEnCharges().iterator().next();
-			
+
 			//On sauvegarde du changement de statut du colis
 			colisBase.setStatuts(colis.getStatuts());
 			colis.setPriseEnCharges(null);
 			colis = colisrepository.saveAndFlush(colis);
-			
+
 			priseEnCharge.setColis(null);
 			priseEnCharge.setStatuts(colis.getStatuts());
 			//On sauvegarde maintenant la prise en charge
@@ -1321,7 +1349,7 @@ public class Controller {
 		List<Colis> lst =  null;
 
 		if(userNom!= null) {
-			
+
 			if(statut !=null)
 				lst = colisrepository.getLstByUserAndStatut(userNom,statut);
 			else
@@ -1342,7 +1370,7 @@ public class Controller {
 		logger.info(msg);
 		return  res;
 	}
-	
+
 	@GetMapping(value = "/colis/trajet")
 	public ResponseEntity<?> getLstColisByTrajetAndStatut(String origine,String destination,String idUser,Integer statut) {
 		logger.info("Récupération des colis avec un statut précis et en fonction d'un trajet");
@@ -1350,15 +1378,45 @@ public class Controller {
 		HttpStatus httpRes = HttpStatus.OK;
 		ResponseEntity<?> res = null;
 		List<Colis> lst = null;
-		
-		if(idUser ==null)
+
+		if((origine==null||origine.isBlank())  &&(destination==null ||destination.isBlank()) &&idUser !=null&&statut!=null)
+			lst =  colisrepository.getLstLstByStatutHorsUser(idUser, statut);
+		else if(origine!=null&& (destination==null ||destination.isBlank())&&idUser !=null&&statut!=null)
+			lst =  colisrepository.getLstByOrigineAndStatutHorsUser(origine, idUser, statut);
+		else if((origine==null||origine.isBlank())&&destination!=null&&idUser !=null&&statut!=null)
+			lst =  colisrepository.getLstByDestinationAndStatutHorsUser(destination, idUser, statut);
+		else if(origine!=null&&destination!=null&&idUser ==null&&statut!=null)
 			lst =  colisrepository.getLstByTrajetAndStatut(origine, destination, statut);
 		else
 			lst =  colisrepository.getLstByTrajetAndStatutForUser(origine, destination,idUser, statut);
-		
+
 		if(lst != null && lst.size()>0)
 			res = new ResponseEntity<>(lst,httpRes);
-		
+
+		else {
+			msg ="Aucun colis trouvé";
+			logger.warn(msg);
+			httpRes = HttpStatus.NOT_FOUND;
+			res = new ResponseEntity<>(msg,httpRes);
+		}
+
+		logger.info(msg);
+		return  res;
+	}
+
+	@GetMapping(value = "/colis/trajetDetail")
+	public ResponseEntity<?> getLstColisDispoByTrajet(String origine,String destination,Integer id) {
+		logger.info("Récupération des colis disponibles en fonction d'un trajet");
+		String msg ="Opération réalisée avec succès";
+		HttpStatus httpRes = HttpStatus.OK;
+		ResponseEntity<?> res = null;
+		List<Colis> lst = null;
+
+		lst =  colisrepository.getLstDispoByTrajet(origine, destination,id);
+
+		if(lst != null && lst.size()>0)
+			res = new ResponseEntity<>(lst,httpRes);
+
 		else {
 			msg ="Aucun colis trouvé";
 			logger.warn(msg);
@@ -1382,11 +1440,11 @@ public class Controller {
 		ResponseEntity<?> res = null;
 
 		try {
-			
+
 			//Update du statut du colis
 			Colis colis = priseCharge.getColis();
 			colis = colisrepository.saveAndFlush(colis);
-			
+
 			//Insert en base de la prise en charge
 			priseCharge.setColis(colis);
 			priserepository.saveAndFlush(priseCharge);
@@ -1418,7 +1476,7 @@ public class Controller {
 		if(lst != null && lst.size()>0) {
 			//Collections.sort(lst);
 			res = new ResponseEntity<>(lst,httpRes);
-			
+
 		}else {
 			msg ="Aucune proposition trouvée";
 			logger.warn(msg);
@@ -1437,23 +1495,23 @@ public class Controller {
 		String msg ="Opération réalisée avec succès";
 		HttpStatus httpRes = HttpStatus.OK;
 		ResponseEntity<?> res = null;
-		
-		 Optional<PriseEnCharge> opriseEnCharge = priserepository.findById(id);
-		
-				if(opriseEnCharge.isPresent()) {
-					PriseEnCharge priseEnCharge = opriseEnCharge.get();
-					res = new ResponseEntity<>(priseEnCharge,httpRes);
-				}else {
-					msg ="Aucune proposition trouvée";
-					logger.warn(msg);
-					httpRes = HttpStatus.NOT_FOUND;
-					res = new ResponseEntity<>(msg,httpRes);
-				}
-		
+
+		Optional<PriseEnCharge> opriseEnCharge = priserepository.findById(id);
+
+		if(opriseEnCharge.isPresent()) {
+			PriseEnCharge priseEnCharge = opriseEnCharge.get();
+			res = new ResponseEntity<>(priseEnCharge,httpRes);
+		}else {
+			msg ="Aucune proposition trouvée";
+			logger.warn(msg);
+			httpRes = HttpStatus.NOT_FOUND;
+			res = new ResponseEntity<>(msg,httpRes);
+		}
+
 		logger.info(msg);
 		return  res;
 	}
-	
+
 
 	@PostMapping("/priseEnCharge/user")
 	public ResponseEntity<?> getAllPriseEnChargeByUser(@RequestBody Users user) {
@@ -1463,7 +1521,7 @@ public class Controller {
 		ResponseEntity<?> res = null;
 
 		List<PriseEnCharge> lst = priserepository.findByUsers(user);
-		
+
 		if(lst != null && lst.size()>0) {
 			//Collections.sort(lst);
 			res = new ResponseEntity<>(lst,httpRes);
@@ -1477,8 +1535,8 @@ public class Controller {
 		logger.info(msg);
 		return  res;
 	}
-	
-	
+
+
 	@GetMapping("/priseEnCharge/colis/{id}")
 	public ResponseEntity<?> getPriseEnChargeByColis(@PathVariable("id") int id) {
 		logger.info("Récupération des prises en charge d'un colis");
@@ -1488,7 +1546,7 @@ public class Controller {
 
 		Colis colis = colisrepository.findById(id).get();
 		PriseEnCharge prise= priserepository.findByColis(colis);
-		
+
 		if(prise != null ) {
 			//Collections.sort(lst);
 			res = new ResponseEntity<>(prise,httpRes);
@@ -1502,7 +1560,7 @@ public class Controller {
 		logger.info(msg);
 		return  res;
 	}
-	
+
 	@GetMapping(value = "/priseEnCharge/userstatut")
 	public ResponseEntity<?> getPriseEnChargeByUserAndStatut(@Nullable Integer statut,@Nullable String userNom) {
 		logger.info("Récupération des prises en charge d'un user dont le statut est précis ");
@@ -1510,9 +1568,9 @@ public class Controller {
 		HttpStatus httpRes = HttpStatus.OK;
 		ResponseEntity<?> res = null;
 		List<PriseEnCharge> lst =  null;
-		
+
 		if(userNom!= null) {
-			
+
 			if(statut !=null)
 				lst = priserepository.getLstByUserAndStatut(userNom,statut);
 			else
@@ -1532,10 +1590,10 @@ public class Controller {
 
 		logger.info(msg);
 		return  res;
-		
+
 	}
-	
-	
+
+
 	@Transactional
 	@PutMapping("/priseEnCharge/{idPrise}")
 	public ResponseEntity<?> updatePriseEnCharge (@PathVariable("idPrise") Integer id, @RequestBody PriseEnCharge priseEnCharge) {
@@ -1551,7 +1609,7 @@ public class Controller {
 				colis = colisrepository.saveAndFlush(colis);
 				priseEnCharge.setColis(colis);
 			}
-			
+
 			//On sauvegarde maintenant la prise en charge
 			priseEnCharge = priserepository.saveAndFlush(priseEnCharge);
 
@@ -1569,7 +1627,7 @@ public class Controller {
 		return  res;
 
 	}
-	
+
 	@Transactional
 	@PutMapping("/priseEnCharge/annule/{idPrise}")
 	public ResponseEntity<?> annulePriseEnCharge (@PathVariable("idPrise") Integer id, @RequestBody PriseEnCharge priseEnCharge) {
@@ -1583,9 +1641,9 @@ public class Controller {
 			Colis colis = priseEnCharge.getColis();
 			colis.setPriseEnCharges(null);
 			colis = colisrepository.saveAndFlush(colis);
-			
+
 			priseEnCharge.setColis(null);
-			
+
 			//On sauvegarde maintenant la prise en charge
 			priseEnCharge = priserepository.saveAndFlush(priseEnCharge);
 
@@ -1604,6 +1662,6 @@ public class Controller {
 
 	}
 
-	
+
 
 }

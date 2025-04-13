@@ -62,6 +62,12 @@ public class Payment implements java.io.Serializable {
     @Column(name = "payment_details")
     private String paymentDetails;
     
+    @Column(name = "base_amount")
+    private Double baseAmount;
+    
+    @Column(name = "service_fees")
+    private Double serviceFees;
+    
     public Payment() {
     }
     
@@ -169,4 +175,22 @@ public class Payment implements java.io.Serializable {
     public void setPaymentDetails(String paymentDetails) {
         this.paymentDetails = paymentDetails;
     }
+
+	public Double getBaseAmount() {
+		return baseAmount;
+	}
+
+	public void setBaseAmount(Double baseAmount) {
+		this.baseAmount = baseAmount;
+	}
+
+	public Double getServiceFees() {
+		return serviceFees;
+	}
+
+	public void setServiceFees(Double serviceFees) {
+		this.serviceFees = serviceFees;
+	}
+    
+    
 }

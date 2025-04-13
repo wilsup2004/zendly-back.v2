@@ -11,6 +11,8 @@ public interface UserRepository extends JpaRepository<Users,String> {
 
 	List<Users> findByNomLike(String nom);
 	
+	Users findByIdUser(String idUser);
+	
 	String reqAuthByMailAndPassword = "SELECT * FROM users "
 			+ "WHERE mail  = :mail "
 			+ "and password  = :password ";

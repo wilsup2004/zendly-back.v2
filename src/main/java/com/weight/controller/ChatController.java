@@ -23,7 +23,7 @@ import com.weight.repository.MessagesRepository;
 import com.weight.views.MessageView;
 
 //@CrossOrigin(origins = {"http://192.168.1.21:4200","http://localhost:4200"})
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RestController
 //@RequestMapping("/chat")
 public class ChatController {

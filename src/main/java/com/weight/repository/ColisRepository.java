@@ -22,6 +22,17 @@ public interface ColisRepository extends JpaRepository<Colis,Integer>  {
 	@Query(value=reqLstEnCoursByUser, nativeQuery = true)
 	List<Colis> getLstEnCoursByUser(@Param("idUser") String idUser);
 	
+	String reqLstDispoByTrajet = "SELECT * FROM colis "
+			+ "WHERE VILLE_DEPART = :origine "
+			+ "AND VILLE_ARRIVEE = :destination "
+			+ "AND ID_STATUT =1 "
+			+ "UNION "
+			+"SELECT * FROM colis "
+			+" where id_colis in "
+			+"(select id_colis from prise_en_charge where id_prise =:idPrise) ";
+	@Query(value=reqLstDispoByTrajet, nativeQuery = true)
+	List<Colis> getLstDispoByTrajet(@Param("origine") String origine,@Param("destination") String destination,@Param("idPrise") Integer idPrise);
+	
 	
 	String reqLstByUserAndStatut = "SELECT * FROM colis "
 			+ "WHERE ID_USER = :idUser "
@@ -44,6 +55,26 @@ public interface ColisRepository extends JpaRepository<Colis,Integer>  {
 	@Query(value=reqLstByTrajetAndStatutForUser, nativeQuery = true)
 	List<Colis> getLstByTrajetAndStatutForUser(@Param("origine") String origine,@Param("destination") String destination,@Param("idUser") String idUser,@Param("statut") Integer statut);
 	
+	
+	String reqLstByStatutHorsUser = "SELECT * FROM colis "
+			+ "WHERE ID_USER <> :idUser "
+			+ "AND ID_STATUT = :statut ";
+	@Query(value=reqLstByStatutHorsUser, nativeQuery = true)
+	List<Colis> getLstLstByStatutHorsUser(@Param("idUser") String idUser,@Param("statut") Integer statut);
+	
+	String reqLstByDestinationAndStatutHorsUser = "SELECT * FROM colis "
+			+ "WHERE VILLE_ARRIVEE = :destination "
+			+ "AND ID_USER <> :idUser "
+			+ "AND ID_STATUT = :statut ";
+	@Query(value=reqLstByDestinationAndStatutHorsUser, nativeQuery = true)
+	List<Colis> getLstByDestinationAndStatutHorsUser(@Param("destination") String destination,@Param("idUser") String idUser,@Param("statut") Integer statut);
+	
+	String reqLstByOrigineAndStatutHorsUser = "SELECT * FROM colis "
+			+ "WHERE VILLE_DEPART = :origine "
+			+ "AND ID_USER <> :idUser "
+			+ "AND ID_STATUT = :statut ";
+	@Query(value=reqLstByOrigineAndStatutHorsUser, nativeQuery = true)
+	List<Colis> getLstByOrigineAndStatutHorsUser(@Param("origine") String origine,@Param("idUser") String idUser,@Param("statut") Integer statut);
 	
 
     // Nouvelles méthodes pour les statistiques

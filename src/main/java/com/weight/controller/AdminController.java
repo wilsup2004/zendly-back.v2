@@ -37,7 +37,7 @@ import com.weight.views.AdminUserView;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class AdminController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

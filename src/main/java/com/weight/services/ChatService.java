@@ -63,7 +63,8 @@ public class ChatService {
             messageView.getIdUserColis(),
             messageView.getSender(),
             messageView.getHorodatage() != null ? messageView.getHorodatage() : new Date(),
-            messageView.getMessage()
+            messageView.getMessage(),
+            false
         );
         
         // Envoi du message via WebSocket
@@ -79,16 +80,58 @@ public class ChatService {
      * @return true si le message a été marqué comme lu
      */
     @Transactional
-    public boolean markMessageAsRead(int idPrise, Date messageDate, String userId) {
-        List<Messages> messages = messagesRepository.getLstMessageByIdPriseAndDate(idPrise, messageDate);
-        if (messages != null && !messages.isEmpty()) {
-            Messages message = messages.get(0);
-            MessagesId id = message.getId();
-            id.setRead(true);
-            messagesRepository.save(message);
-            return true;
+    public boolean markMessageAsRead(int idPrise, Date messageDate, String userId) { 
+       // List<Messages> messages = messagesRepository.getLstMessageByIdPriseAndDate(idPrise, messageDate);
+    List<Messages> messages = messagesRepository.getLstMessageByIdPrise(idPrise);
+    if (messages != null && !messages.isEmpty()) {
+        	 boolean anyUpdated = false;
+        	 
+             /*
+             // Parcourir tous les messages trouvés
+             for (Messages message : messages) {
+                 // Vérifier si le message n'est pas du destinataire
+                 if (!message.getUsersBySender().equals(userId)) {
+                     // Marquer le message comme lu
+                     message.getId().setRead(true);
+                     message = messagesRepository.saveAndFlush(message);
+                     anyUpdated = true;
+                 }
+             }
+             */
+        	 messagesRepository.markAllMessageAsRead(idPrise, userId);
+             return anyUpdated;
         }
         return false;
+    }
+    
+    /**
+     * Marque tous les messages d'une conversation comme lus pour un utilisateur spécifique
+     * 
+     * @param idPrise ID de la prise en charge
+     * @param userId ID de l'utilisateur qui a lu les messages
+     * @return Nombre de messages marqués comme lus
+     */
+    @Transactional
+    public int markAllMessagesAsReadInRoom(int idPrise, String userId) {
+        // Récupérer tous les messages non lus de cette conversation qui ne sont pas de l'utilisateur
+        List<Messages> unreadMessages = messagesRepository.getLstUnreadMessagesByPriseAndUser(idPrise, userId);
+        
+        if (unreadMessages != null && !unreadMessages.isEmpty()) {
+            int count = 0;
+            
+            // Parcourir tous les messages et les marquer comme lus
+            for (Messages message : unreadMessages) {
+                if (!message.getUsersBySender().equals(userId)) {
+                	message.getId().setRead(true);
+                    messagesRepository.save(message);
+                    count++;
+                }
+            }
+            
+            return count;
+        }
+        
+        return 0;
     }
     
     /**

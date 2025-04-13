@@ -10,6 +10,8 @@ import com.weight.model.UsersProfil;
 import com.weight.model.UsersProfilId;
 import com.weight.repository.UserRepository;
 
+import jakarta.persistence.Column;
+
 public class UsersView {
 
 	private String idUser;
@@ -21,6 +23,19 @@ public class UsersView {
 	private String libelProfil;
 	private Date dateInit;
 	private Long note;
+	
+	private String telephone;
+	private String isActif;
+	private String adresse;
+	private String complementAdresse;
+	private String codePostal;
+	private String ville;
+	private String pays;
+	private String lastActivity;
+	private String totalColisDelivered;
+	private String totalColisSent;
+	private String totalPayments;
+	
 	private UsersProfil[] usersProfils ;
 	
 	
@@ -89,6 +104,19 @@ public class UsersView {
 		user.setNom(this.nom);
 		user.setPrenom(this.prenom);
 		user.setPassword(this.password);
+		user.setMail(this.mail);
+		user.setTelephone(this.telephone);
+		user.setIsActif(this.isActif);
+		user.setAdresse(this.adresse);
+		user.setComplementAdresse(this.complementAdresse);
+		user.setCodePostal(this.codePostal);
+		user.setVille(this.ville);
+		user.setPays(this.pays);
+		user.setLastActivity(this.lastActivity);
+		user.setTotalColisDelivered(this.totalColisDelivered);
+		user.setTotalColisSent(this.totalColisSent);
+		user.setTotalPayments(totalPayments);
+		
 		
 		if(this.usersProfils !=null && this.usersProfils.length>0) {
 			this.idProfil = this.usersProfils[0].getId().getIdProfil();
@@ -121,6 +149,48 @@ public class UsersView {
 		return user;
 	}
 
+
+	public Users   toUserInfo (UserRepository userrepository) {
+		Users user =null;
+		
+		Optional<Users> ouser = userrepository.findById(this.idUser);
+		if(ouser.isPresent())
+			user = ouser.get();
+		else
+			user = new Users(idUser);
+		user.setNom(this.nom);
+		user.setPrenom(this.prenom);
+		user.setPassword(this.password);
+		user.setMail(this.mail);
+		user.setTelephone(this.telephone);
+		user.setAdresse(this.adresse);
+		user.setComplementAdresse(this.complementAdresse);
+		user.setCodePostal(this.codePostal);
+		user.setVille(this.ville);
+		user.setPays(this.pays);
+		
+		return user;
+	}
+	
+	
+	/**
+	 *Methode urilisée uniquement pour modifier la sécurité (password)
+	 * @param userrepository
+	 * @return
+	 */
+	public Users   toUserSecurity(UserRepository userrepository) {
+Users user =null;
+		
+		Optional<Users> ouser = userrepository.findById(this.idUser);
+		if(ouser.isPresent())
+			user = ouser.get();
+		else
+			user = new Users(idUser);
+		
+		user.setPassword(this.password);
+		
+		return user;
+	}
 
 	
 
@@ -194,6 +264,117 @@ public class UsersView {
 
 	public UsersProfil[] getUsersProfils() {
 		return usersProfils;
+	}
+
+	
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+
+	public String getIsActif() {
+		return isActif;
+	}
+
+
+	public void setIsActif(String isActif) {
+		this.isActif = isActif;
+	}
+
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+
+	public String getComplementAdresse() {
+		return complementAdresse;
+	}
+
+
+	public void setComplementAdresse(String complementAdresse) {
+		this.complementAdresse = complementAdresse;
+	}
+
+
+	public String getCodePostal() {
+		return codePostal;
+	}
+
+
+	public void setCodePostal(String codePostal) {
+		this.codePostal = codePostal;
+	}
+
+
+	public String getVille() {
+		return ville;
+	}
+
+
+	public void setVille(String ville) {
+		this.ville = ville;
+	}
+
+
+	public String getPays() {
+		return pays;
+	}
+
+
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+
+
+	public String getLastActivity() {
+		return lastActivity;
+	}
+
+
+	public void setLastActivity(String lastActivity) {
+		this.lastActivity = lastActivity;
+	}
+
+
+	public String getTotalColisDelivered() {
+		return totalColisDelivered;
+	}
+
+
+	public void setTotalColisDelivered(String totalColisDelivered) {
+		this.totalColisDelivered = totalColisDelivered;
+	}
+
+
+	public String getTotalColisSent() {
+		return totalColisSent;
+	}
+
+
+	public void setTotalColisSent(String totalColisSent) {
+		this.totalColisSent = totalColisSent;
+	}
+
+
+	public String getTotalPayments() {
+		return totalPayments;
+	}
+
+
+	public void setTotalPayments(String totalPayments) {
+		this.totalPayments = totalPayments;
 	}
 
 

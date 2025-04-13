@@ -41,6 +41,39 @@ public class Users implements java.io.Serializable {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "phone")
+	private String telephone;
+	
+	@Column(name = "is_actif")
+	private String isActif;
+	
+	@Column(name = "adresse")
+	private String adresse;
+	
+	@Column(name = "complement_adresse")
+	private String complementAdresse;
+
+	@Column(name = "code_postal")
+	private String codePostal;
+	
+	@Column(name = "ville")
+	private String ville;
+	
+	@Column(name = "pays")
+	private String pays;
+	
+	@Column(name = "last_activity")
+	private String lastActivity;
+
+	@Column(name = "total_colis_delivered")
+	private String totalColisDelivered;
+	
+	@Column(name = "total_colis_sent")
+	private String totalColisSent;
+	
+	@Column(name = "total_payments")
+	private String totalPayments;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
 	private Set<UsersProfil> usersProfils = new HashSet<UsersProfil>(0);
 
@@ -96,6 +129,37 @@ public class Users implements java.io.Serializable {
 		this.mail = mail;
 		this.password = password;
 		this.usersProfils = usersProfils;
+	}
+	
+	
+
+	public Users(String idUser, String nom, String prenom, String mail, String password, String telephone,
+			String isActif, String adresse, String complementAdresse, String codePostal, String ville, String pays,
+			String lastActivity, String totalColisDelivered, String totalColisSent, String totalPayments,
+			Set<UsersProfil> usersProfils, Set<UsersDispo> usersDispos, Set<UserTrade> userTrades,
+			Set<TranspTrade> transpTrades, Set<HistAvis> histAvises) {
+		super();
+		this.idUser = idUser;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.mail = mail;
+		this.password = password;
+		this.telephone = telephone;
+		this.isActif = isActif;
+		this.adresse = adresse;
+		this.complementAdresse = complementAdresse;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.pays = pays;
+		this.lastActivity = lastActivity;
+		this.totalColisDelivered = totalColisDelivered;
+		this.totalColisSent = totalColisSent;
+		this.totalPayments = totalPayments;
+		this.usersProfils = usersProfils;
+		this.usersDispos = usersDispos;
+		this.userTrades = userTrades;
+		this.transpTrades = transpTrades;
+		this.histAvises = histAvises;
 	}
 
 	public String getIdUser() {
@@ -179,6 +243,94 @@ public class Users implements java.io.Serializable {
 
 	public void setUserTrades(Set<UserTrade> userTrades) {
 		this.userTrades = userTrades;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getIsActif() {
+		return isActif;
+	}
+
+	public void setIsActif(String isActif) {
+		this.isActif = isActif;
+	}
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public String getComplementAdresse() {
+		return complementAdresse;
+	}
+
+	public void setComplementAdresse(String complementAdresse) {
+		this.complementAdresse = complementAdresse;
+	}
+
+	public String getCodePostal() {
+		return codePostal;
+	}
+
+	public void setCodePostal(String codePostal) {
+		this.codePostal = codePostal;
+	}
+
+	public String getVille() {
+		return ville;
+	}
+
+	public void setVille(String ville) {
+		this.ville = ville;
+	}
+
+	public String getPays() {
+		return pays;
+	}
+
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+
+	public String getLastActivity() {
+		return lastActivity;
+	}
+
+	public void setLastActivity(String lastActivity) {
+		this.lastActivity = lastActivity;
+	}
+
+	public String getTotalColisDelivered() {
+		return totalColisDelivered;
+	}
+
+	public void setTotalColisDelivered(String totalColisDelivered) {
+		this.totalColisDelivered = totalColisDelivered;
+	}
+
+	public String getTotalColisSent() {
+		return totalColisSent;
+	}
+
+	public void setTotalColisSent(String totalColisSent) {
+		this.totalColisSent = totalColisSent;
+	}
+
+	public String getTotalPayments() {
+		return totalPayments;
+	}
+
+	public void setTotalPayments(String totalPayments) {
+		this.totalPayments = totalPayments;
 	}
 	
 }

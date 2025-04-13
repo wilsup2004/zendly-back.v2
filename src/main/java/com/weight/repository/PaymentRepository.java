@@ -20,6 +20,12 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     List<Payment> findByPriseEnCharge(PriseEnCharge priseEnCharge);
     List<Payment> findByPaymentStatus(String status);
     
+    String reqByIdPriseAndIdColis = "SELECT * FROM payments "
+			+ "WHERE id_prise = :idPrise "
+			+ "AND id_colis = :idColis ";
+	@Query(value=reqByIdPriseAndIdColis, nativeQuery = true)
+	Payment findByIdPriseAndIdColis(@Param("idPrise") int idPrise,@Param("idColis") int idColis);
+	
     @Query("SELECT p FROM Payment p WHERE p.paymentStatus = :status")
     List<Payment> findByStatus(@Param("status") String status);
     

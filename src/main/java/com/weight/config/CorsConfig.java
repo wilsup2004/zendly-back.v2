@@ -15,7 +15,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Appliquer CORS à toutes les routes
                         .allowedOrigins("*") // Autoriser toutes les origines
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Méthodes HTTP autorisées
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH") // Méthodes HTTP autorisées
                         .allowedHeaders("*") // Autoriser tous les headers
                         .allowCredentials(false);
             }

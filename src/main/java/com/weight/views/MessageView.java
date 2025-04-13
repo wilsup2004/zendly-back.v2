@@ -15,6 +15,8 @@ public class MessageView {
     private boolean notificationSent;
 
     public MessageView() {
+    	this.isRead = false; // Par défaut, un nouveau message n'est pas lu
+    	this.notificationSent = false;
     }
 
     public MessageView(int idPrise, String idUserPrise, String idUserColis, String sender, Date horodatage,
