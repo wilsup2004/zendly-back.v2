@@ -55,8 +55,6 @@ import com.weight.views.UserTradeView;
 import com.weight.views.UsersView;
 
 
-//@CrossOrigin(origins = {"http://192.168.1.21:4200","http://localhost:4200"})
-//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/trade")
 public class Controller {
