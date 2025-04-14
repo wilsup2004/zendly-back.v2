@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Config & secrets
+.env
+application.properties
+
+# Logs
+*.log

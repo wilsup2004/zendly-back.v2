@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +34,6 @@ import com.weight.model.Statuts;
 import com.weight.model.UserTrade;
 import com.weight.model.Users;
 import com.weight.model.UsersDispo;
-import com.weight.model.UsersProfil;
 import com.weight.repository.AeroportRepository;
 import com.weight.repository.ColisRepository;
 import com.weight.repository.PriseEnChargeRepository;
@@ -43,7 +41,6 @@ import com.weight.repository.StatutsRepository;
 import com.weight.repository.UserRepository;
 import com.weight.repository.UserTradeRepository;
 import com.weight.repository.UsersDispoRepository;
-import com.weight.repository.UsersProfilRepository;
 import com.weight.services.ImageService;
 import com.weight.services.S3Service;
 import com.weight.services.Vol;
@@ -70,9 +67,6 @@ public class Controller {
 
 	@Autowired
 	private UserTradeRepository usertraderepository;
-
-	@Autowired
-	private UsersProfilRepository userprofilrepository;
 
 	@Autowired
 	private StatutsRepository statutsrepository;
